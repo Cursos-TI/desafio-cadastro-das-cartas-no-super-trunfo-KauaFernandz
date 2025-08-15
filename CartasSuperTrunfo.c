@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int main() {
-
+typedef struct {
     char estado[50];
     char codigocard[50];
     char cidade[50];
@@ -10,42 +9,56 @@ int main() {
     float area;
     float pib;
     int pontos_turistico;
+} Carta;
 
+int main () {
+    int n;
+    printf("Quantas cartas deseja cadastrar? ");
+    scanf("%d", &n);
+    getchar(); 
 
-    printf("Digite o estado: \n");
-    fgets(estado, sizeof(estado), stdin);
-    estado[strcspn(estado, "\n")] = 0;
+    Carta cartas[n];
 
-    printf("Digite o codigo da carta: \n");
-    scanf ("%s", codigocard);
+    for (int i = 0; i < n; i++) {
+        printf("\n--- Carta %d ---\n", i+1);
 
-    printf("Digite o nome da cidade: \n");
-    getchar ();
-    fgets(cidade, sizeof(cidade), stdin);
-    cidade[strcspn(cidade, "\n")] = 0;
+        printf("Digite o estado: \n");
+        fgets(cartas[i].estado, sizeof(cartas[i].estado), stdin);
+        cartas[i].estado[strcspn(cartas[i].estado, "\n")] = 0;
 
-    printf("Digite a população: \n");
-    scanf("%d", &populacao);
+        printf("Digite o codigo da carta: \n");
+        fgets(cartas[i].codigocard, sizeof(cartas[i].codigocard), stdin);
+        cartas[i].codigocard[strcspn(cartas[i].codigocard, "\n")] = 0;
 
-    printf("Digite a área: \n");
-    scanf("%f", &area);
+        printf("Digite o nome da cidade: \n");
+        fgets(cartas[i].cidade, sizeof(cartas[i].cidade), stdin);
+        cartas[i].cidade[strcspn(cartas[i].cidade, "\n")] = 0;
 
-    printf("Digite o PIB: \n");
-    scanf("%f", &pib);
+        printf("Digite a população: \n");
+        scanf("%d", &cartas[i].populacao);
 
-    printf("Digite o número de pontos turísticos: \n");
-    scanf("%d", &pontos_turistico);
+        printf("Digite a área: \n");
+        scanf("%f", &cartas[i].area);
 
-    printf("\n=== Ficha da Carta===\n");
-    printf("Estado: %s\n", estado);
-    printf("Código: %s\n", codigocard);
-    printf("Cidade: %s\n", cidade);
-    printf("População: %d\n", populacao);
-    printf("Área: %.2f\n", area);
-    printf("PIB: %.2f\n", pib);
-    printf("Número de pontos turísticos: %d\n", pontos_turistico);
+        printf("Digite o PIB: \n");
+        scanf("%f", &cartas[i].pib);
 
+        printf("Digite o número de pontos turísticos: \n");
+        scanf("%d", &cartas[i].pontos_turistico);
 
+        getchar(); 
+
+    printf("\n=== Fichas das Cartas ===\n");
+    for (int i = 0; i < n; i++) {
+        printf("\nCarta %d:\n", i+1);
+        printf("Estado: %s\n", cartas[i].estado);
+        printf("Código: %s\n", cartas[i].codigocard);
+        printf("Cidade: %s\n", cartas[i].cidade);
+        printf("População: %d\n", cartas[i].populacao);
+        printf("Área: %.2f\n", cartas[i].area);
+        printf("PIB: %.2f\n", cartas[i].pib);
+        printf("Número de pontos turísticos: %d\n", cartas[i].pontos_turistico);
+    }
 
     return 0;
 }

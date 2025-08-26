@@ -14,12 +14,19 @@ typedef struct {
     float super_poder;
 } Carta;
 
-int main () {
-    int n;
-    printf("Quantas cartas deseja cadastrar? ");
-    scanf("%d", &n);
-    getchar(); // Limpa o buffer do teclado
+void comparar_atributo(const char* nome, float valor1, float valor2, int menor_vence) {
+    printf("%s: ", nome);
+    if (valor1 == valor2) {
+        printf("Empate (%.2f vs %.2f)\n", valor1, valor2);
+    } else if ((menor_vence && valor1 < valor2) || (!menor_vence && valor1 > valor2)) {
+        printf("Carta 1 vence (%.2f vs %.2f)\n", valor1, valor2);
+    } else {
+        printf("Carta 2 vence (%.2f vs %.2f)\n", valor1, valor2);
+    }
+}
 
+int main () {
+    const int n = 2;
     Carta cartas[n];
 
     // Cadastro das cartas
@@ -53,7 +60,6 @@ int main () {
         cartas[i].densidade_populacional = (float)cartas[i].populacao / cartas[i].area;
         cartas[i].pib_per_capita = (float)cartas[i].pib * 1000000000.0 / cartas[i].populacao;
 
-        // Super Poder: soma dos atributos numéricos + inverso da densidade populacional
         float inverso_densidade = (cartas[i].densidade_populacional > 0) ? 1.0/cartas[i].densidade_populacional : 0;
         cartas[i].super_poder = cartas[i].populacao + cartas[i].area + cartas[i].pib + cartas[i].pontos_turistico +
                                cartas[i].pib_per_capita + inverso_densidade;
@@ -76,6 +82,16 @@ int main () {
         printf("PIB per Capita: %.2f reais\n", cartas[i].pib_per_capita);
         printf("Super Poder: %.2f\n", cartas[i].super_poder);
     }
+
+    // Comparação dos atributos
+    printf("\n=== Comparação das Cartas ===\n");
+    comparar_atributo("População", (float)cartas[0].populacao, (float)cartas[1].populacao, 0);
+    comparar_atributo("Área", cartas[0].area, cartas[1].area, 0);
+    comparar_atributo("PIB", cartas[0].pib, cartas[1].pib, 0);
+    comparar_atributo("Pontos Turísticos", (float)cartas[0].pontos_turistico, (float)cartas[1].pontos_turistico, 0);
+    comparar_atributo("PIB per Capita", cartas[0].pib_per_capita, cartas[1].pib_per_capita, 0);
+    comparar_atributo("Densidade Populacional", cartas[0].densidade_populacional, cartas[1].densidade_populacional, 1);
+    comparar_atributo("Super Poder", cartas[0].super_poder, cartas[1].super_poder, 0);
 
     return 0;
 }

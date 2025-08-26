@@ -5,12 +5,13 @@ typedef struct {
     char estado[50];
     char codigocard[50];
     char cidade[50];
-    int populacao;
+    unsigned long int populacao;
     float area;
     float pib;
     int pontos_turistico;
     float densidade_populacional;
     float pib_per_capita;
+    float super_poder;
 } Carta;
 
 int main () {
@@ -38,7 +39,7 @@ int main () {
         cartas[i].cidade[strcspn(cartas[i].cidade, "\n")] = 0;
 
         printf("Digite a população: \n");
-        scanf("%d", &cartas[i].populacao);
+        scanf("%lu", &cartas[i].populacao);
 
         printf("Digite a área: \n");
         scanf("%f", &cartas[i].area);
@@ -52,6 +53,11 @@ int main () {
         cartas[i].densidade_populacional = (float)cartas[i].populacao / cartas[i].area;
         cartas[i].pib_per_capita = (float)cartas[i].pib * 1000000000.0 / cartas[i].populacao;
 
+        // Super Poder: soma dos atributos numéricos + inverso da densidade populacional
+        float inverso_densidade = (cartas[i].densidade_populacional > 0) ? 1.0/cartas[i].densidade_populacional : 0;
+        cartas[i].super_poder = cartas[i].populacao + cartas[i].area + cartas[i].pib + cartas[i].pontos_turistico +
+                               cartas[i].pib_per_capita + inverso_densidade;
+
         getchar(); // Limpa o buffer para a próxima carta
     }
 
@@ -62,12 +68,13 @@ int main () {
         printf("Estado: %s\n", cartas[i].estado);
         printf("Código: %s\n", cartas[i].codigocard);
         printf("Cidade: %s\n", cartas[i].cidade);
-        printf("População: %d\n", cartas[i].populacao);
+        printf("População: %lu\n", cartas[i].populacao);
         printf("Área: %.2f km²\n", cartas[i].area);
         printf("PIB: %.2f bilhões de reais\n", cartas[i].pib);
         printf("Número de pontos turísticos: %d\n", cartas[i].pontos_turistico);
         printf("Densidade populacional: %.2f hab/km²\n", cartas[i].densidade_populacional);
         printf("PIB per Capita: %.2f reais\n", cartas[i].pib_per_capita);
+        printf("Super Poder: %.2f\n", cartas[i].super_poder);
     }
 
     return 0;
